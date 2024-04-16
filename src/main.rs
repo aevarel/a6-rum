@@ -3,7 +3,7 @@ use rum::math::*;
 use rum::io::*;
 use rum::control::*;
 use rum::memory::*;
-
+use rum::word::*;
 fn main() {
 
     // get single command line argument, which is the name of the program file

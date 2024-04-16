@@ -1,9 +1,5 @@
 use::bitpack::*;
-pub mod math;
-pub mod io;
-pub mod control;
-pub mod memory;
-pub mod word;
+
 /// Extracts the opcode from an instruction word
 /// 
 /// # Arguments
