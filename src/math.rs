@@ -1,5 +1,5 @@
 use::bitpack::*;
-
+use crate::word::*;
 // will probably need a test module to make sure that the referenced register is valid 
 /* 
     Add
