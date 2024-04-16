@@ -8,7 +8,7 @@ use std::io::{stdin, stdout};
     Arguments: reference to registers array, current instruction word
     Returns: 0 on success, 101-109 on failure
 */
-
+#[inline]
 pub fn out(r: &mut [u32; 8], iw: u32) -> u32 {
 
     return 0;
@@ -19,6 +19,7 @@ pub fn out(r: &mut [u32; 8], iw: u32) -> u32 {
     Arguments: reference to registers array, current instruction word
     Returns: 0 on success, 101-109 on failure
 */
+#[inline]
 pub fn inp(r: &mut [u32; 8], iw: u32) -> u32 {
 
     return 0;
