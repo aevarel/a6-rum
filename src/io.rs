@@ -1,6 +1,6 @@
 use::bitpack::*;
 use std::io::{stdin, stdout};
-
+use crate::word::*;
 // remember to flush!
 
 /*
