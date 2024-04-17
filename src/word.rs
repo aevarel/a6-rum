@@ -26,11 +26,12 @@ use::bitpack::*;
 /// # Returns
 /// 
 /// An array of 3 u8s representing the registers
-#[inline]
-pub fn regs_array(word: u32) -> [u8; 3] {
-    let a = getu(word as u64, 3, 0).unwrap() as u8;
-    let b = getu(word as u64, 3, 3).unwrap() as u8;
-    let c = getu(word as u64, 3, 6).unwrap() as u8;
+#[inline(always)]
+pub fn regs_array(word: u32) -> [usize; 3] {
+    // for further optimization, rewrite bitpack to use u32 instead of u64 to avoid casting
+    let a = getu(word as u64, 3, 6).unwrap() as usize;
+    let b = getu(word as u64, 3, 3).unwrap() as usize;
+    let c = getu(word as u64, 3, 0).unwrap() as usize;
 
     [a, b, c]
 }
