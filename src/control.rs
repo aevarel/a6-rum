@@ -32,5 +32,5 @@ pub fn cmov(r: &mut [u32; 8], iw: u32) -> u32 {
 /// 70 to signal program halt, 71-79 on failure (which should be impossible)
 #[inline]
 pub fn halt() -> u32 {
-    return 70;
+    return 0;
 }
