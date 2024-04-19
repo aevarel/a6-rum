@@ -28,6 +28,7 @@ pub fn opcode(word: u32) -> u8{
 /// # Returns
 /// 
 /// An array of 3 u8s representing the registers
+
 #[inline(always)]
 pub fn regs_array(word: u32) -> [usize; 3] {
     // for further optimization, rewrite bitpack to use u32 instead of u64 to avoid casting
