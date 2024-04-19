@@ -26,7 +26,6 @@ use::bitpack::*;
 /// # Returns
 /// 
 /// An array of 3 u8s representing the registers
-#[inline]
 pub fn regs_array(word: u32) -> [u8; 3] {
     let a = bitpack::getu(word as u64, 3, 0).unwrap() as u8;
     let b = bitpack::getu(word as u64, 3, 3).unwrap() as u8;
