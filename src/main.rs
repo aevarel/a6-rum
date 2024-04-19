@@ -4,6 +4,7 @@ use rum::io::*;
 use rum::control::*;
 use rum::memory::*;
 use rum::word::*;
+use std::process;
 
 fn main()  {
 
@@ -53,6 +54,7 @@ fn main()  {
         // fetch the instruction 
         let iw = m[0][pc as usize];
         let op = opcode(iw);
+        // match to an opcode
         match op { 
             0 => cmov(&mut r, iw),
             1 => sload(&mut r, &mut m, iw),
@@ -61,7 +63,7 @@ fn main()  {
             4 => mul(&mut r, iw),
             5 => div(&mut r, iw),
             6 => nand( &mut r, iw),
-            7 => break,
+            7 => process::exit(0),
             8 => map(&mut r, &mut m, &mut saved_ids, iw),
             9 => unmap(&mut r, &mut m, &mut saved_ids, iw),
             10 => out(&mut r, iw),
@@ -70,6 +72,7 @@ fn main()  {
             13 => loadv(&mut r, iw),
             _ => std::process::exit(140),
         };        
+        pc += 1;
     }
 }
 
