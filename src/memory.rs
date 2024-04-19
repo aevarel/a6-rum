@@ -165,7 +165,7 @@ pub fn loadp(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32, pc: &mut u32) -> 
     Returns: 0 on success, 131-139 on failure
 */
 #[inline]
-pub fn loadv(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
+pub fn loadv(r: &mut [u32; 8], iw: u32) -> u32 {
     
     /*
         The three bits immediately less significant than the opcode describe a single register A.
