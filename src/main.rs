@@ -71,7 +71,9 @@ fn main()  {
         let iw = m[0][pc as usize];
         //println!("{:032b}", iw); // test code
         let op = opcode(iw);
-        //println!("{:004b}", op); // test code
+        // print registers as test code
+        //println!("{:?}", r); // test code
+        //println!("\n{:004b}", op); // test code
         // print opcode as integer
         //println!("{:?}", op); // test code
         // match to an opcode
@@ -90,7 +92,7 @@ fn main()  {
             11 => inp(&mut r, iw),
             12 => loadp(&mut r, &mut m, iw, &mut pc),
             13 => loadv(&mut r, iw),
-            _ => std::process::exit(140),
+            _ => process::exit(140),
         };        
         pc += 1;
     }
