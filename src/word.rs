@@ -56,16 +56,6 @@ pub fn load_reg(word: u32) -> usize {
     getu(word as u64, 3, 25).unwrap() as usize
 }
 
-
-
-
-
-
-
-
-
-
-
 /* 
 #[derive(Debug)]
 pub struct instruct_word {

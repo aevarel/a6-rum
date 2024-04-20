@@ -1,4 +1,5 @@
 use crate::word::*;
+use::bitpack::bitpack::*;
 
 /*
     Map: map/allocate new memory segment
@@ -172,11 +173,16 @@ pub fn loadv(r: &mut [u32; 8], iw: u32) -> u32 {
     */
 
     // get registers
-    let args = regs_array(iw);
-    let a = args[0] as usize;
+    //let args = regs_array(iw);
+    //let a = args[0] as usize; // THIS IS THE PROBLEM
+    // get register a from the 3 bits immediately less significant than the opcode
+    let a = getu(iw as u64, 3, 25).unwrap() as usize;
 
     // load the value into the register
-    r[a] = iw & 0x01FFFFFF; // could use getu here, but this is technically faster
+    //r[a] = iw & 0x01FFFFFF; // could use getu here, but this is technically faster
+
+    // use getu to load the value into the register
+    r[a] = getu(iw as u64, 25, 0).unwrap() as u32;
 
     return 0;
 }
