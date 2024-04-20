@@ -15,7 +15,7 @@ pub fn out(r: &mut [u32; 8], iw: u32) -> u32 {
     let c = regs_array(iw)[2];
 
     // output the value in the register
-    print!("{}", r[c]);
+    print!("{}", r[c] as u8 as char); // need error handling here?
     stdout().flush().unwrap();
 
     return 0;
