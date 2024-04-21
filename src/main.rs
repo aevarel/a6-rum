@@ -61,12 +61,14 @@ fn main()  {
     m.push(instructions);
 
     // initialize the program counter
-    let mut pc: u32 = 0;
+    let mut pc: i64 = 0;
     
 
     // loop until a halt instruction is reached
 
     loop {
+    
+
         // fetch the instruction 
         let iw = m[0][pc as usize];
         //println!("{:032b}", iw); // test code
@@ -77,6 +79,10 @@ fn main()  {
         // print opcode as integer
         //println!("{:?}", op); // test code
         // match to an opcode
+        // Print size of m and r before function call
+        //println!("Before function call: m size = {}, r size = {}", m.len(), r.len());
+
+        pc += 1; // moved to here, maybe it'll work now?
         match op { 
             0 => cmov(&mut r, iw),
             1 => sload(&mut r, &mut m, iw),
@@ -94,7 +100,7 @@ fn main()  {
             13 => loadv(&mut r, iw),
             _ => process::exit(140),
         };        
-        pc += 1;
+        
     }
 }
 

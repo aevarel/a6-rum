@@ -132,7 +132,7 @@ pub fn sstore(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
     Returns: 0 on success, 121-129 on failure
 */
 #[inline]
-pub fn loadp(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32, pc: &mut u32) -> u32 {
+pub fn loadp(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32, pc: &mut i64) -> u32 {
 
     // get registers
     let args = regs_array(iw);
@@ -150,11 +150,10 @@ pub fn loadp(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32, pc: &mut u32) -> 
 
         // duplicate the segment
         m[0] = m[r[b] as usize].clone();
-
     }
 
     // set the program counter to the offset in the segment
-    *pc = m[0][r[c] as usize];
+    *pc = r[c] as i64 - 1;
 
     return 0;
 }

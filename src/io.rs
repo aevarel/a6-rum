@@ -38,6 +38,8 @@ pub fn inp(r: &mut [u32; 8], iw: u32) -> u32 {
     let mut input = String::new();
     stdin().read_line(&mut input).unwrap();
     r[c] = input.chars().next().unwrap() as u32;
+    // print whatever is in r[c]
+    //println!("{}", r[c]); // test code
 
     return 0;
 }
