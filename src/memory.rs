@@ -111,6 +111,10 @@ pub fn sstore(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
     let b = args[1] as usize;
     let c = args[2] as usize;
 
+    // if the segment identifier is out of bounds
+    /*if r[a] as usize >= m.len() {
+        return 21;
+    }*/
 
     // if the offset is out of bounds, resize the segment to the offset in the segment with zeroes if necessary
     if r[b] as usize >= m[r[a] as usize].len() {
