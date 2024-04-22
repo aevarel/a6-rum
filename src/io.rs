@@ -15,7 +15,7 @@ pub fn out(r: &mut [u32; 8], iw: u32) -> u32 {
     let c = regs_array(iw)[2];
 
     // output the value in the register
-    if r[c] < 255 {
+    if r[c] <= 255 {
         print!("{}", r[c] as u8 as char);
         stdout().flush().unwrap();
     }

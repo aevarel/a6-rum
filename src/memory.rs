@@ -20,6 +20,7 @@ pub fn map(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, iw
         r[b as usize] = saved_ids.pop().unwrap();
         // initialize the re-used empty segment at r[b] to have a length of r[c] that is all zeroes
         // can this be optimized?
+
         for _ in 0..r[c] {
             m[r[b] as usize].push(0_u32);
         }
