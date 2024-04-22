@@ -153,7 +153,7 @@ pub fn loadp(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32, pc: &mut i64) -> 
     }
 
     // set the program counter to the offset in the segment
-    *pc = r[c] as i64 - 1;
+    *pc = r[c] as i64;
 
     return 0;
 }

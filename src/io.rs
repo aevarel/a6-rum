@@ -1,4 +1,4 @@
-use std::io::{stdin, stdout, Write};
+use std::io::{stdin, stdout, Read, Write};
 use crate::word::*;
 
 // remember to flush!
@@ -35,9 +35,9 @@ pub fn inp(r: &mut [u32; 8], iw: u32) -> u32 {
     let c = regs_array(iw)[2];
 
     // read a single character from the user
-    let mut input = String::new();
-    stdin().read_line(&mut input).unwrap();
-    r[c] = input.chars().next().unwrap() as u32;
+    let mut input = [0u8; 1];
+    stdin().read(&mut input).unwrap();
+    r[c] = input[0] as u32;
     // print whatever is in r[c]
     //println!("{}", r[c]); // test code
 

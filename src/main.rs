@@ -81,7 +81,6 @@ fn main()  {
         // match to an opcode
         // Print size of m and r before function call
         //println!("Before function call: m size = {}, r size = {}", m.len(), r.len());
-
         pc += 1; // moved to here, maybe it'll work now?
         match op { 
             0 => cmov(&mut r, iw),
@@ -100,7 +99,7 @@ fn main()  {
             13 => loadv(&mut r, iw),
             _ => process::exit(140),
         };        
-        
+
     }
 }
 
