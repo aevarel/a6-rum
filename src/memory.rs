@@ -46,6 +46,7 @@ pub fn unmap(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, 
     // get registers
     let args = regs_array(iw);
     let c = args[2] as usize;
+    //println!("Register C: {}, Value stored in register C: {}", c, r[c]); // test code
 
     // if the segment is the last segment in memory
     if r[c] == m.len() as u32 - 1 {
@@ -110,14 +111,12 @@ pub fn sstore(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
     let b = args[1] as usize;
     let c = args[2] as usize;
 
-    // if the segment identifier is out of bounds
-    if r[a] as usize >= m.len() {
-        return 21;
-    }
 
-    // if the offset is out of bounds
+    // if the offset is out of bounds, resize the segment to the offset in the segment with zeroes if necessary
     if r[b] as usize >= m[r[a] as usize].len() {
-        return 22;
+        for _ in m[r[a] as usize].len()..r[b] as usize {
+            m[r[a] as usize].push(0);
+        }
     }
 
     // store the value in the register at the offset in the segment
