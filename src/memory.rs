@@ -106,7 +106,7 @@ pub fn sstore(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
     
     // M[R[A]][R[B]] := R[C]
     // get registers
-    let args = regs_array(iw);
+    /*let args = regs_array(iw);
     let a = args[0] as usize;
     let b = args[1] as usize;
     let c = args[2] as usize;
@@ -124,8 +124,24 @@ pub fn sstore(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
     }
 
     // store the value in the register at the offset in the segment
-    m[r[a] as usize][r[b] as usize] = r[c];
+    m[r[a] as usize][r[b] as usize] = r[c];*/
 
+    // get registers
+    let args = regs_array(iw);
+    let a = args[0] as usize;
+    let b = args[1] as usize;
+    let c = args[2] as usize;
+
+    let len = m[r[a] as usize].len();
+    let new_len = r[b] as usize + 1;
+
+    // store the value in the register at the offset in the segment
+    if new_len > len {
+        m[r[a] as usize].resize(new_len, 0);
+    }
+
+    m[r[a] as usize][r[b] as usize] = r[c];
+    
     return 0;
 }
 

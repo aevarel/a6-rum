@@ -18,7 +18,7 @@ fn main()  {
     // vector of vectors of u32s to store memory
     let mut m: Vec<Vec<u32>> = Vec::new();
     // print all vecs in m
-    println!("{:?}", m); // test code
+    //println!("{:?}", m); // test code
 
 
     // saved segment identifiers
@@ -72,7 +72,7 @@ fn main()  {
     loop {
     
         // print registers as test code
-        println!("{:?}", r); // test code
+        //println!("{:?}", r); // test code
 
         // fetch the instruction 
         let iw = m[0][pc as usize];
@@ -82,11 +82,11 @@ fn main()  {
         // print opcode as integer
         //println!("{:?}", op); // test code
         // get registers a, b, c and store them in seperate variables
-        let args = regs_array(iw);
+        /*let args = regs_array(iw);
         let a = args[0] as usize;
         let b = args[1] as usize;
-        let c = args[2] as usize;
-        println!("Opcode: {}, A: {}, B: {}, C: {}", op, a, b, c); // test code
+        let c = args[2] as usize;*/
+        //println!("Opcode: {}, A: {}, B: {}, C: {}", op, a, b, c); // test code
         // match to an opcode
         // Print size of m and r before function call
         //println!("Before function call: m size = {}, r size = {}", m.len(), r.len());
