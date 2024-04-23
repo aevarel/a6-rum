@@ -73,6 +73,8 @@ fn main()  {
     
         // print registers as test code
         //println!("{:?}", r); // test code
+        // print each vec in m
+        //println!("{:?}", m); // test code
 
         // fetch the instruction 
         let iw = m[0][pc as usize];

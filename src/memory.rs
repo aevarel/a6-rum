@@ -9,6 +9,11 @@ use::bitpack::bitpack::*;
 #[inline]
 pub fn map(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, iw: u32) -> u32 {
 
+    // print registers as test code
+    //println!("{:?}", r); // test code
+    // print each vec in m except for m[0]
+    //println!("Map start: {:?}", &m[1..]); // test code
+
     // get registers
     let args = regs_array(iw);
     let b = args[1] as usize;
@@ -18,19 +23,18 @@ pub fn map(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, iw
     if saved_ids.len() > 0 {
 
         r[b as usize] = saved_ids.pop().unwrap();
-        // initialize the re-used empty segment at r[b] to have a length of r[c] that is all zeroes
-        // can this be optimized?
-        for _ in 0..r[c] {
-            m[r[b] as usize].push(0_u32);
-        }
+        m[r[b] as usize] = vec![0; r[c] as usize];
 
     } else {
 
         // otherwise, store the length of m in r[b]
         r[b] = m.len() as u32;
         // push a new segment onto m of length r[c] that is all zeroes
-        m.push(Vec::with_capacity(r[c] as usize));
+        m.push(vec![0; r[c] as usize]);
+        //println!("pushed empty vec"); // test code
     }
+
+    //println!("Map end: {:?}", &m[1..]); // test code
 
     return 0;
 }
@@ -42,6 +46,12 @@ pub fn map(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, iw
 */
 #[inline]
 pub fn unmap(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, iw: u32) -> u32 {
+
+    // print registers as test code
+    //println!("{:?}", r); // test code
+    // print each vec in m except for m[0]
+    //println!("Unmap start: {:?}", &m[1..]); // test code
+    
 
     // get registers
     let args = regs_array(iw);
@@ -61,6 +71,8 @@ pub fn unmap(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, 
         // append the identifier to saved_segment_identifiers
         saved_ids.push(r[c] as u32);
     }
+
+    //println!("Unmap end: {:?}", &m[1..]); // test code
 
     return 0;
 }
