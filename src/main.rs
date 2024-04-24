@@ -17,6 +17,9 @@ fn main()  {
 
     // vector of vectors of u32s to store memory
     let mut m: Vec<Vec<u32>> = Vec::new();
+    // print all vecs in m
+    //println!("{:?}", m); // test code
+
 
     // saved segment identifiers
     let mut saved_ids: Vec<u32> = Vec::new();
@@ -65,42 +68,54 @@ fn main()  {
     
 
     // loop until a halt instruction is reached
-
+    let mut ret;
     loop {
     
+        // print registers as test code
+        //println!("Registers: {:?}", r); // test code
+        // print each vec in m
+        //println!("{:?}", m); // test code
 
         // fetch the instruction 
         let iw = m[0][pc as usize];
         //println!("{:032b}", iw); // test code
         let op = opcode(iw);
-        // print registers as test code
-        //println!("{:?}", r); // test code
         //println!("\n{:004b}", op); // test code
         // print opcode as integer
         //println!("{:?}", op); // test code
+        // get registers a, b, c and store them in seperate variables
+        //let args = regs_array(iw);
+        //let a = args[0] as usize;
+        //let b = args[1] as usize;
+        //let c = args[2] as usize;
+        //println!("{}:\tOp: {}, A: {}, B: {}, C: {} \tRegisters: {:?}", pc, op, a, b, c, r); // test code
+        // print memory segment 1 if it exists
         // match to an opcode
         // Print size of m and r before function call
         //println!("Before function call: m size = {}, r size = {}", m.len(), r.len());
         println!("pc: {}, op: {}", pc, op);
         pc += 1; // moved to here, maybe it'll work now?
         match op { 
-            0 => cmov(&mut r, iw),
-            1 => sload(&mut r, &mut m, iw),
-            2 => sstore(&mut r, &mut m, iw),
-            3 => add(&mut r, iw),
-            4 => mul(&mut r, iw),
-            5 => div(&mut r, iw),
-            6 => nand( &mut r, iw),
+            0 => ret = cmov(&mut r, iw),
+            1 => ret = sload(&mut r, &mut m, iw),
+            2 => ret = sstore(&mut r, &mut m, iw),
+            3 => ret = add(&mut r, iw),
+            4 => ret = mul(&mut r, iw),
+            5 => ret = div(&mut r, iw),
+            6 => ret = nand( &mut r, iw),
             7 => process::exit(0),
-            8 => map(&mut r, &mut m, &mut saved_ids, iw),
-            9 => unmap(&mut r, &mut m, &mut saved_ids, iw),
-            10 => out(&mut r, iw),
-            11 => inp(&mut r, iw),
-            12 => loadp(&mut r, &mut m, iw, &mut pc),
-            13 => loadv(&mut r, iw),
-            _ => process::exit(140),
+            8 => ret = map(&mut r, &mut m, &mut saved_ids, iw),
+            9 => ret = unmap(&mut r, &mut m, &mut saved_ids, iw),
+            10 => ret = out(&mut r, iw),
+            11 => ret = inp(&mut r, iw),
+            12 => ret = loadp(&mut r, &mut m, iw, &mut pc),
+            13 => ret = loadv(&mut r, iw),
+            _ => ret = 140,
         };        
-
+        if ret != 0 {
+            eprintln!("Error: {}", ret);
+            process::exit(ret as i32);
+        }
     }
 }
 
