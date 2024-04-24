@@ -26,23 +26,15 @@ pub fn map(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, iw
         let new_id = saved_ids.pop().unwrap();
         m[new_id as usize] = vec![0; r[c] as usize];
         r[b] = new_id;
-
+        
     } else {
-        // let m_len = m.len();
-        // otherwise, store the length of m in r[b]
-        //r[b] = m.len() as u32; // BAD
+
         let new_id = m.len() as u32;
         // push a new segment onto m of length r[c] that is all zeroes
         m.push(vec![0; r[c] as usize]);
         // store the new id in r[b]
         r[b] = new_id;
-        //println!("pushed empty vec"); // test code
     }
-
-    // if segment 2 was allocated, print it
-    //if r[b] == 2 {
-    //    eprintln!("Segment 2: {:?}", m[2]); // test code
-    //}
 
     return 0;
 }
