@@ -1,1 +1,6 @@
 /target
+/rum-binaries
+/.vscode
+foo.txt
+bar.txt
+qux.txt
