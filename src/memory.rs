@@ -22,19 +22,27 @@ pub fn map(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, iw
     // if saved_ids isn't empty, pop the last element and store it in r[b]
     if saved_ids.len() > 0 {
 
-        r[b as usize] = saved_ids.pop().unwrap();
-        m[r[b] as usize] = vec![0; r[c] as usize];
+        //r[b] = saved_ids.pop().unwrap(); // BAD
+        let new_id = saved_ids.pop().unwrap();
+        m[new_id as usize] = vec![0; r[c] as usize];
+        r[b] = new_id;
 
     } else {
-
+        // let m_len = m.len();
         // otherwise, store the length of m in r[b]
-        r[b] = m.len() as u32;
+        //r[b] = m.len() as u32; // BAD
+        let new_id = m.len() as u32;
         // push a new segment onto m of length r[c] that is all zeroes
         m.push(vec![0; r[c] as usize]);
+        // store the new id in r[b]
+        r[b] = new_id;
         //println!("pushed empty vec"); // test code
     }
 
-    //println!("Map end: {:?}", &m[1..]); // test code
+    // if segment 2 was allocated, print it
+    //if r[b] == 2 {
+    //    eprintln!("Segment 2: {:?}", m[2]); // test code
+    //}
 
     return 0;
 }
@@ -99,11 +107,19 @@ pub fn sload(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
 
     // if the offset is out of bounds
     if r[c] as usize >= m[r[b] as usize].len() {
+        // print memory segment m[r[b]] as test code
+        //println!("ERROR: segment {} before sload with out of bounds offset: {:?}", r[b], m[r[b] as usize]); // test code
         return 12;
     }
 
+    // print memory segment m[r[b]] as test code
+    //println!("Segment m[r[b]] before sload: {:?}", m[r[b] as usize]); // test code
+
     // load the value at the offset in the segment into the register
     r[a] = m[r[b] as usize][r[c] as usize];
+
+    //println!("Segment m[r[b]] after sload: {:?}", m[r[b] as usize]); // test code
+
 
     return 0;
 }
@@ -144,12 +160,22 @@ pub fn sstore(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
     let b = args[1] as usize;
     let c = args[2] as usize;
 
-    let len = m[r[a] as usize].len();
-    let new_len = r[b] as usize + 1;
+    // if the memory segment is segment 1, print the segment and what offset was modified as test code
+    /*if r[b] == 1 {
+        // print memory segment m[r[b]] as test code
+        println!("Segment m[r[b]] before sload: {:?}", m[r[b] as usize]); // test code
+        println!("Offset: {}", r[c]); // test code
+    }*/
 
-    // store the value in the register at the offset in the segment
-    if new_len > len {
-        m[r[a] as usize].resize(new_len, 0);
+    // if the segment identifier is out of bounds
+    if r[a] as usize >= m.len() {
+        return 21;
+    }
+
+    // if the offset is out of bounds, also return an error
+    if r[b] as usize >= m[r[a] as usize].len() {
+        //   reduce the offset until we reach a segment either at the end or a valid index?
+        return 22;
     }
 
     m[r[a] as usize][r[b] as usize] = r[c];

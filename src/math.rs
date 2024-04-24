@@ -52,7 +52,8 @@ pub fn div(r: &mut [u32; 8], iw: u32) -> u32 {
         eprintln!("Division by zero error");
         return 51;
     }
-    r[a] = r[b].wrapping_div(r[c]); // % 23u32.pow(2)
+    //r[a] = r[b].wrapping_div(r[c]); // % 23u32.pow(2)
+    r[a] = r[b] / r[c];
     return 0;
 }
 

@@ -72,7 +72,7 @@ fn main()  {
     loop {
     
         // print registers as test code
-        //println!("{:?}", r); // test code
+        //println!("Registers: {:?}", r); // test code
         // print each vec in m
         //println!("{:?}", m); // test code
 
@@ -84,11 +84,12 @@ fn main()  {
         // print opcode as integer
         //println!("{:?}", op); // test code
         // get registers a, b, c and store them in seperate variables
-        /*let args = regs_array(iw);
-        let a = args[0] as usize;
-        let b = args[1] as usize;
-        let c = args[2] as usize;*/
-        //println!("Opcode: {}, A: {}, B: {}, C: {}", op, a, b, c); // test code
+        //let args = regs_array(iw);
+        //let a = args[0] as usize;
+        //let b = args[1] as usize;
+        //let c = args[2] as usize;
+        //println!("{}:\tOp: {}, A: {}, B: {}, C: {} \tRegisters: {:?}", pc, op, a, b, c, r); // test code
+        // print memory segment 1 if it exists
         // match to an opcode
         // Print size of m and r before function call
         //println!("Before function call: m size = {}, r size = {}", m.len(), r.len());
