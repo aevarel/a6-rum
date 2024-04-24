@@ -60,4 +60,4 @@ The program logic is stored within main.rs in a loop. We have a program counter 
 | 10     | Output              | The value in $r[C]$ is displayed on the I/O device immediately. Only values from 0 to 255 are allowed.                                                               |
 | 11     | Input               | The UM waits for input on the I/O device. When input arrives, $r[C]$ is loaded with the input, which must be a value from 0 to 255. If end of input, $r[C]$ = 1's. |
 | 12     | Load Program Segment | $m[$r[B]]$ is duplicated and replaces $m[0]$. Program counter set to $m[0][$r[C]]$. If $r[B]=0$, quick jump.                                                       |
-| 13     | Load Value          | See semantics for “other instruction”.                                                                                                                                |
+| 13     | Load Value          | Load the value indicated by the remaining 25 bits into $r[A].                                                                                                              |
