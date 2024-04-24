@@ -9,11 +9,6 @@ use::bitpack::bitpack::*;
 #[inline]
 pub fn map(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, iw: u32) -> u32 {
 
-    // print registers as test code
-    //println!("{:?}", r); // test code
-    // print each vec in m except for m[0]
-    //println!("Map start: {:?}", &m[1..]); // test code
-
     // get registers
     let args = regs_array(iw);
     let b = args[1] as usize;
@@ -47,16 +42,9 @@ pub fn map(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, iw
 #[inline]
 pub fn unmap(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, iw: u32) -> u32 {
 
-    // print registers as test code
-    //println!("{:?}", r); // test code
-    // print each vec in m except for m[0]
-    //println!("Unmap start: {:?}", &m[1..]); // test code
-    
-
     // get registers
     let args = regs_array(iw);
     let c = args[2] as usize;
-    //println!("Register C: {}, Value stored in register C: {}", c, r[c]); // test code
 
     // if the segment is the last segment in memory
     if r[c] == m.len() as u32 - 1 {
@@ -71,8 +59,6 @@ pub fn unmap(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, 
         // append the identifier to saved_segment_identifiers
         saved_ids.push(r[c] as u32);
     }
-
-    //println!("Unmap end: {:?}", &m[1..]); // test code
 
     return 0;
 }
@@ -100,18 +86,11 @@ pub fn sload(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
     // if the offset is out of bounds
     if r[c] as usize >= m[r[b] as usize].len() {
         // print memory segment m[r[b]] as test code
-        //println!("ERROR: segment {} before sload with out of bounds offset: {:?}", r[b], m[r[b] as usize]); // test code
         return 12;
     }
 
-    // print memory segment m[r[b]] as test code
-    //println!("Segment m[r[b]] before sload: {:?}", m[r[b] as usize]); // test code
-
     // load the value at the offset in the segment into the register
     r[a] = m[r[b] as usize][r[c] as usize];
-
-    //println!("Segment m[r[b]] after sload: {:?}", m[r[b] as usize]); // test code
-
 
     return 0;
 }
@@ -125,39 +104,12 @@ pub fn sload(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
 pub fn sstore(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
     
     // M[R[A]][R[B]] := R[C]
-    // get registers
-    /*let args = regs_array(iw);
-    let a = args[0] as usize;
-    let b = args[1] as usize;
-    let c = args[2] as usize;
-
-    // if the segment identifier is out of bounds
-    /*if r[a] as usize >= m.len() {
-        return 21;
-    }*/
-
-    // if the offset is out of bounds, resize the segment to the offset in the segment with zeroes if necessary
-    if r[b] as usize >= m[r[a] as usize].len() {
-        for _ in m[r[a] as usize].len()..r[b] as usize {
-            m[r[a] as usize].push(0);
-        }
-    }
-
-    // store the value in the register at the offset in the segment
-    m[r[a] as usize][r[b] as usize] = r[c];*/
 
     // get registers
     let args = regs_array(iw);
     let a = args[0] as usize;
     let b = args[1] as usize;
     let c = args[2] as usize;
-
-    // if the memory segment is segment 1, print the segment and what offset was modified as test code
-    /*if r[b] == 1 {
-        // print memory segment m[r[b]] as test code
-        println!("Segment m[r[b]] before sload: {:?}", m[r[b] as usize]); // test code
-        println!("Offset: {}", r[c]); // test code
-    }*/
 
     // if the segment identifier is out of bounds
     if r[a] as usize >= m.len() {
@@ -214,20 +166,9 @@ pub fn loadp(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32, pc: &mut i64) -> 
 */
 #[inline]
 pub fn loadv(r: &mut [u32; 8], iw: u32) -> u32 {
-    
-    /*
-        The three bits immediately less significant than the opcode describe a single register A.
-        The remaining 25 bits indicate a value, which is loaded into R[A].
-    */
 
-    // get registers
-    //let args = regs_array(iw);
-    //let a = args[0] as usize; // THIS IS THE PROBLEM
     // get register a from the 3 bits immediately less significant than the opcode
     let a = getu(iw as u64, 3, 25).unwrap() as usize;
-
-    // load the value into the register
-    //r[a] = iw & 0x01FFFFFF; // could use getu here, but this is technically faster
 
     // use getu to load the value into the register
     r[a] = getu(iw as u64, 25, 0).unwrap() as u32;

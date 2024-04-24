@@ -38,8 +38,6 @@ pub fn inp(r: &mut [u32; 8], iw: u32) -> u32 {
     let mut input = [0u8; 1];
     stdin().read(&mut input).unwrap();
     r[c] = input[0] as u32;
-    // print whatever is in r[c]
-    //println!("{}", r[c]); // test code
 
     return 0;
 }

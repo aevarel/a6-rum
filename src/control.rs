@@ -13,11 +13,6 @@ use crate::word::*;
 /// 0 on success, 1-9 on failure
 #[inline]
 pub fn cmov(r: &mut [u32; 8], iw: u32) -> u32 {
-    // if R[C] != 0, R[A] := R[B]
-    /*let abc:[usize; 3] = regs_array(iw);
-    if r[abc[2]] != 0 {
-        r[abc[0]] = r[abc[1]];
-    }*/
 
     // get registers
     let args = regs_array(iw);
