@@ -1,13 +1,18 @@
 use std::io::{stdin, stdout, Read, Write};
 use crate::word::*;
 
-// remember to flush!
+// remember to flush stdout after printing
 
-/*
-    Out - output the value in register C
-    Arguments: reference to registers array, current instruction word
-    Returns: 0 on success, 101-109 on failure
-*/
+/// Outputs the value held in register C to the console
+/// 
+/// # Arguments
+/// 
+/// * `r` - reference to the array of registers
+/// * `iw` - the current instruction word
+///
+/// # Returns
+/// 
+/// 0 on success
 #[inline]
 pub fn out(r: &mut [u32; 8], iw: u32) -> u32 {
 
@@ -23,11 +28,16 @@ pub fn out(r: &mut [u32; 8], iw: u32) -> u32 {
     return 0;
 }
 
-/* 
-    Inp - read a single character from the user and store it in register C
-    Arguments: reference to registers array, current instruction word
-    Returns: 0 on success, 101-109 on failure
-*/
+/// Reads a single character from the user and stores it in register C
+/// 
+/// # Arguments
+/// 
+/// * `r` - reference to the array of registers
+/// * `iw` - the current instruction word
+/// 
+/// # Returns
+/// 
+/// 0 on success
 #[inline]
 pub fn inp(r: &mut [u32; 8], iw: u32) -> u32 {
 

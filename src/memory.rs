@@ -1,11 +1,21 @@
 use crate::word::*;
 use::bitpack::bitpack::*;
 
-/*
-    Map: map/allocate new memory segment
-    Arguments: pointer to registers, pointer to memory, pointer to saved segment identifiers, instruction word
-    Returns: 0 on success, 81-89 on failure
-*/
+
+/// Allocates a new memory segment and stores the identifier in register B,
+/// or pops the last element from the saved segment identifiers and stores it in register B,
+/// in the case that the saved segment identifiers vector is not empty.
+/// 
+/// # Arguments
+/// 
+/// * `r` - reference to the array of registers
+/// * `m` - reference to the vector of memory segments
+/// * `saved_ids` - reference to the vector of saved segment identifiers
+/// * `iw` - the current instruction word
+/// 
+/// # Returns
+/// 
+/// 0 on success
 #[inline]
 pub fn map(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, iw: u32) -> u32 {
 
@@ -34,11 +44,20 @@ pub fn map(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, iw
     return 0;
 }
 
-/* 
-    Unmap: unmap/deallocate/free memory segment
-    Arguments: pointer to registers, pointer to memory, pointer to saved segment identifiers, instruction word
-    Returns: 0 on success, 91-99 on failure
-*/
+/// Unmaps a memory segment from the memory vector, 
+/// either by popping the last segment off the vector if it's the last segment on the stack,
+/// or by replacing the segment with an empty segment if it's not the last segment.
+/// 
+/// # Arguments
+/// 
+/// * `r` - reference to the array of registers
+/// * `m` - reference to the vector of memory segments
+/// * `saved_ids` - reference to the vector of saved segment identifiers
+/// * `iw` - the current instruction word
+/// 
+/// # Returns
+///    
+/// 0 on success
 #[inline]
 pub fn unmap(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, iw: u32) -> u32 {
 
@@ -59,15 +78,24 @@ pub fn unmap(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, saved_ids: &mut Vec<u32>, 
         // append the identifier to saved_segment_identifiers
         saved_ids.push(r[c] as u32);
     }
-
     return 0;
 }
 
-/*
-    Sload: segment load
-    Arguments: pointer to registers, pointer to memory, instruction word
-    Returns: 0 on success, 11-19 on failure
-*/
+/// Loads a value from a memory segment into register A,
+/// where the segment is identified by the value in register B,
+/// and the offset is identified by the value in register C.
+/// 
+/// # Arguments
+/// 
+/// * `r` - reference to the array of registers
+/// * `m` - reference to the vector of memory segments
+/// * `iw` - the current instruction word
+/// 
+/// # Returns
+/// 
+/// 0 on success
+/// 11 if the segment identifier is out of bounds
+/// 12 if the offset is out of bounds
 #[inline]
 pub fn sload(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
     
@@ -95,11 +123,21 @@ pub fn sload(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
     return 0;
 }
 
-/*
-    Sstore: segment store
-    Arguments: pointer to registers, pointer to memory, instruction word
-    Returns: 0 on success, 21-29 on failure
-*/
+/// Stores a value from register C into a memory segment,
+/// where the segment is identified by the value in register A,
+/// and the offset is identified by the value in register B.
+/// 
+/// # Arguments
+/// 
+/// * `r` - reference to the array of registers
+/// * `m` - reference to the vector of memory segments
+/// * `iw` - the current instruction word
+/// 
+/// # Returns
+/// 
+/// 0 on success
+/// 21 if the segment identifier is out of bounds
+/// 22 if the offset is out of bounds
 #[inline]
 pub fn sstore(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
     
@@ -127,11 +165,22 @@ pub fn sstore(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
     return 0;
 }
 
-/*
-    Loadp: load program
-    Arguments: pointer to registers, pointer to memory, instruction word, pointer to program counter
-    Returns: 0 on success, 121-129 on failure
-*/
+/// Loads a program from a memory segment into the instruction vector,
+/// where the segment is identified by the value in register B,
+/// and the offset is identified by the value in register C.
+/// 
+/// # Arguments
+/// 
+/// * `r` - reference to the array of registers
+/// * `m` - reference to the vector of memory segments
+/// * `iw` - the current instruction word
+/// * `pc` - reference to the program counter
+/// 
+/// # Returns
+/// 
+/// 0 on success
+/// 121 if the segment identifier is out of bounds
+/// 122 if the offset is out of bounds
 #[inline]
 pub fn loadp(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32, pc: &mut i64) -> u32 {
 
@@ -159,11 +208,18 @@ pub fn loadp(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32, pc: &mut i64) -> 
     return 0;
 }
 
-/*
-    Loadv: load value
-    Arguments: pointer to registers, pointer to memory, instruction word
-    Returns: 0 on success, 131-139 on failure
-*/
+/// Loads a value from an instruction word into a register,
+/// where the value is identified by the 25 least significant bits of the instruction word,
+/// and the register is identified by the 3 bits immediately less significant than the opcode.
+/// 
+/// # Arguments
+/// 
+/// * `r` - reference to the array of registers
+/// * `iw` - the current instruction word
+/// 
+/// # Returns
+/// 
+/// 0 on success
 #[inline]
 pub fn loadv(r: &mut [u32; 8], iw: u32) -> u32 {
 

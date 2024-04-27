@@ -5,7 +5,7 @@ pub mod memory;
 pub mod word;
 
 
-// write tests for the functions in the memory module
+// write tests for the functions in the memory module as they're the most imperative to test. 
 #[cfg(test)]
 mod tests {
     use super::*;
