@@ -2,9 +2,11 @@ use crate::word::*;
 use::bitpack::bitpack::*;
 
 
-/// Allocates a new memory segment and stores the identifier in register B,
-/// or pops the last element from the saved segment identifiers and stores it in register B,
-/// in the case that the saved segment identifiers vector is not empty.
+/// 
+/// 
+/// Allocates a new memory segment, or in the case that the saved segment identifiers vector is not empty.
+/// pops the last element from the saved segment identifiers,
+/// and stores it in register B. 
 /// 
 /// # Arguments
 /// 
@@ -123,10 +125,12 @@ pub fn sload(r: &mut [u32; 8], m: &mut Vec<Vec<u32>>, iw: u32) -> u32 {
     return 0;
 }
 
+
 /// Stores a value from register C into a memory segment,
 /// where the segment is identified by the value in register A,
 /// and the offset is identified by the value in register B.
 /// 
+/// M[R[A]][R[B]] := R[C]
 /// # Arguments
 /// 
 /// * `r` - reference to the array of registers
